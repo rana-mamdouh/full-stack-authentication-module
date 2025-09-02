@@ -30,4 +30,16 @@ export class UsersService {
 
         return newUser.save();
     }
+
+    async findByEmail(email: string): Promise<UserDocument | null> {
+        return this.userModel.findOne({ email }).exec();
+    }
+
+    async findById(id: string): Promise<UserDocument | null> {
+        return this.userModel.findById(id).select('-password').exec();
+    }
+
+    async validatePassword(user: UserDocument, password: string): Promise<boolean> {
+        return bcrypt.compare(password, user.password);
+    }
 }

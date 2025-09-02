@@ -19,10 +19,15 @@ describe('UsersService.create', () => {
     const findOneExecMock = jest.fn();
     const findOneMock = jest.fn().mockReturnValue({ exec: findOneExecMock });
 
+    const findByIdExecMock = jest.fn();
+    const selectMock = jest.fn().mockReturnValue({ exec: findByIdExecMock });
+    const findByIdMock = jest.fn().mockReturnValue({ select: selectMock });
+
     const userModelMock: any = function (this: any, doc: any) {
         return constructorMock(doc);
     } as any;
     (userModelMock as any).findOne = findOneMock;
+    (userModelMock as any).findById = findByIdMock;
 
     beforeEach(async () => {
         jest.clearAllMocks();
@@ -74,6 +79,39 @@ describe('UsersService.create', () => {
 
         expect(bcrypt.hash).not.toHaveBeenCalled();
         expect(saveMock).not.toHaveBeenCalled();
+    });
+
+    it('should find user by email', async () => {
+        const email = 'byemail@example.com';
+        const user = { _id: 'u1', email };
+        findOneExecMock.mockResolvedValueOnce(user);
+
+        const result = await service.findByEmail(email);
+
+        expect(findOneMock).toHaveBeenCalledWith({ email });
+        expect(result).toEqual(user);
+    });
+
+    it('should find user by id and exclude password', async () => {
+        const id = 'abc123';
+        const user = { _id: id, email: 'x@y.z' };
+        findByIdExecMock.mockResolvedValueOnce(user);
+
+        const result = await service.findById(id);
+
+        expect(findByIdMock).toHaveBeenCalledWith(id);
+        expect(selectMock).toHaveBeenCalledWith('-password');
+        expect(result).toEqual(user);
+    });
+
+    it('should validate password using bcrypt.compare', async () => {
+        const user: any = { password: 'hashed' };
+        (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
+
+        const isValid = await service.validatePassword(user, 'plain');
+
+        expect(bcrypt.compare).toHaveBeenCalledWith('plain', 'hashed');
+        expect(isValid).toBe(true);
     });
 });
 
