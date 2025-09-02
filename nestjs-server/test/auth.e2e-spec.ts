@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 
@@ -14,6 +14,17 @@ describe('Authentication (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    
+    // Apply the same configuration as main.ts
+    app.setGlobalPrefix('api');
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      }),
+    );
+    
     await app.init();
   });
 
@@ -30,7 +41,7 @@ describe('Authentication (e2e)', () => {
       };
 
       return request(app.getHttpServer())
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send(testUser)
         .expect(201)
         .expect((res) => {
@@ -55,25 +66,25 @@ describe('Authentication (e2e)', () => {
       };
 
       // First create the user
-      return request(app.getHttpServer())
-        .post('/auth/signup')
-        .send(testUser)
-        .expect(201)
-        .then(() => {
-          // Then try to create another user with the same email
-          return request(app.getHttpServer())
-            .post('/auth/signup')
-            .send(testUser)
-            .expect(409)
-            .expect((res) => {
-              expect(res.body.message).toBe('User already exists with this email');
-            });
-        });
+              return request(app.getHttpServer())
+          .post('/api/auth/signup')
+          .send(testUser)
+          .expect(201)
+          .then(() => {
+            // Then try to create another user with the same email
+            return request(app.getHttpServer())
+              .post('/api/auth/signup')
+              .send(testUser)
+              .expect(409)
+              .expect((res) => {
+                expect(res.body.message).toBe('User already exists with this email');
+              });
+          });
     });
 
     it('should return 400 for invalid email format', () => {
       return request(app.getHttpServer())
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send({
           email: 'invalid-email',
           name: 'Test User',
@@ -84,7 +95,7 @@ describe('Authentication (e2e)', () => {
 
     it('should return 400 for missing required fields', () => {
       return request(app.getHttpServer())
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send({
           email: `missing${Date.now()}@example.com`,
           // missing name and password
@@ -94,7 +105,7 @@ describe('Authentication (e2e)', () => {
 
     it('should return 400 for password too short', () => {
       return request(app.getHttpServer())
-        .post('/auth/signup')
+        .post('/api/auth/signup')
         .send({
           email: `short${Date.now()}@example.com`,
           name: 'Test User',
@@ -113,32 +124,32 @@ describe('Authentication (e2e)', () => {
       };
 
       // First create the user
-      return request(app.getHttpServer())
-        .post('/auth/signup')
-        .send(testUser)
-        .expect(201)
-        .then(() => {
-          // Then sign in
-          return request(app.getHttpServer())
-            .post('/auth/signin')
-            .send({
-              email: testUser.email,
-              password: testUser.password,
-            })
-            .expect(200)
-            .expect((res) => {
-              expect(res.body).toHaveProperty('access_token');
-              expect(res.body).toHaveProperty('user');
-              expect(res.body.user).toHaveProperty('id');
-              expect(res.body.user).toHaveProperty('email', testUser.email);
-              expect(res.body.user).toHaveProperty('name', testUser.name);
-            });
-        });
+              return request(app.getHttpServer())
+          .post('/api/auth/signup')
+          .send(testUser)
+          .expect(201)
+          .then(() => {
+            // Then sign in
+            return request(app.getHttpServer())
+              .post('/api/auth/signin')
+              .send({
+                email: testUser.email,
+                password: testUser.password,
+              })
+              .expect(200)
+              .expect((res) => {
+                expect(res.body).toHaveProperty('access_token');
+                expect(res.body).toHaveProperty('user');
+                expect(res.body.user).toHaveProperty('id');
+                expect(res.body.user).toHaveProperty('email', testUser.email);
+                expect(res.body.user).toHaveProperty('name', testUser.name);
+              });
+          });
     });
 
     it('should return 401 for non-existent user', () => {
       return request(app.getHttpServer())
-        .post('/auth/signin')
+        .post('/api/auth/signin')
         .send({
           email: 'nonexistent@example.com',
           password: 'Password123!',
@@ -157,23 +168,23 @@ describe('Authentication (e2e)', () => {
       };
 
       // First create the user
-      return request(app.getHttpServer())
-        .post('/auth/signup')
-        .send(testUser)
-        .expect(201)
-        .then(() => {
-          // Then try to sign in with wrong password
-          return request(app.getHttpServer())
-            .post('/auth/signin')
-            .send({
-              email: testUser.email,
-              password: 'wrongpassword',
-            })
-            .expect(401)
-            .expect((res) => {
-              expect(res.body.message).toBe('Invalid credentials');
-            });
-        });
+              return request(app.getHttpServer())
+          .post('/api/auth/signup')
+          .send(testUser)
+          .expect(201)
+          .then(() => {
+            // Then try to sign in with wrong password
+            return request(app.getHttpServer())
+              .post('/api/auth/signin')
+              .send({
+                email: testUser.email,
+                password: 'wrongpassword',
+              })
+              .expect(401)
+              .expect((res) => {
+                expect(res.body.message).toBe('Invalid credentials');
+              });
+          });
     });
   });
 
@@ -186,36 +197,36 @@ describe('Authentication (e2e)', () => {
       };
 
       // First create the user and get token
-      return request(app.getHttpServer())
-        .post('/auth/signup')
-        .send(testUser)
-        .expect(201)
-        .then((res) => {
-          const token = res.body.access_token;
-          
-          // Then get profile
-          return request(app.getHttpServer())
-            .get('/auth/profile')
-            .set('Authorization', `Bearer ${token}`)
-            .expect(200)
-            .expect((profileRes) => {
-              expect(profileRes.body).toHaveProperty('id');
-              expect(profileRes.body).toHaveProperty('email', testUser.email);
-              expect(profileRes.body).toHaveProperty('name', testUser.name);
-              expect(profileRes.body).not.toHaveProperty('password');
-            });
-        });
+              return request(app.getHttpServer())
+          .post('/api/auth/signup')
+          .send(testUser)
+          .expect(201)
+          .then((res) => {
+            const token = res.body.access_token;
+            
+            // Then get profile
+            return request(app.getHttpServer())
+              .get('/api/auth/profile')
+              .set('Authorization', `Bearer ${token}`)
+              .expect(200)
+              .expect((profileRes) => {
+                expect(profileRes.body).toHaveProperty('id');
+                expect(profileRes.body).toHaveProperty('email', testUser.email);
+                expect(profileRes.body).toHaveProperty('name', testUser.name);
+                expect(profileRes.body).not.toHaveProperty('password');
+              });
+          });
     });
 
     it('should return 401 when no token provided', () => {
       return request(app.getHttpServer())
-        .get('/auth/profile')
+        .get('/api/auth/profile')
         .expect(401);
     });
 
     it('should return 401 for invalid token', () => {
       return request(app.getHttpServer())
-        .get('/auth/profile')
+        .get('/api/auth/profile')
         .set('Authorization', 'Bearer invalid-token')
         .expect(401);
     });

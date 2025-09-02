@@ -15,8 +15,23 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return server status', () => {
+      const result = appController.getServerStatus();
+      expect(result).toHaveProperty('status', 'running');
+      expect(result).toHaveProperty('timestamp');
+      expect(result).toHaveProperty('uptime');
+      expect(result).toHaveProperty('environment');
+      expect(result).toHaveProperty('memory');
+      expect(result).toHaveProperty('platform');
+      expect(result).toHaveProperty('nodeVersion');
+    });
+  });
+
+  describe('health', () => {
+    it('should return health status', () => {
+      const result = appController.getHealth();
+      expect(result).toHaveProperty('status', 'healthy');
+      expect(result).toHaveProperty('timestamp');
     });
   });
 });
