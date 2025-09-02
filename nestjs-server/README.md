@@ -11,7 +11,6 @@
 - [🧪 Testing](#-testing)
 - [🏗️ Project Structure](#️-project-structure)
 - [⚙️ Configuration](#️-configuration)
-- [🔒 Security](#-security)
 
 ---
 
@@ -280,7 +279,6 @@ npm run test:e2e
 # Run specific test file
 npm run test auth.service.spec.ts
 
-# Run 
 ```
 
 ### 🎯 Test Types
@@ -304,32 +302,6 @@ npm run test auth.service.spec.ts
 - ✅ **Protected Route Access**
 - ✅ **Error Handling Scenarios**
 - ✅ **Security Vulnerability Tests**
-
-### 🧪 Manual API Testing
-
-#### Test with cURL:
-```bash
-# 1. Register a new user
-curl -X POST http://localhost:3001/api/auth/signup \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "test@example.com",
-    "name": "Test User",
-    "password": "TestPass123!"
-  }'
-
-# 2. Login with credentials
-curl -X POST http://localhost:3001/api/auth/signin \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "test@example.com", 
-    "password": "TestPass123!"
-  }'
-
-# 3. Access protected route (replace TOKEN)
-curl -X GET http://localhost:3001/api/auth/profile \
-  -H "Authorization: Bearer YOUR_ACESS_TOKEN_HERE"
-```
 
 ---
 
@@ -424,46 +396,6 @@ FRONTEND_URL=http://localhost:3000
   }
 }
 ```
-
----
-
-## 🔒 Security
-
-### 🛡️ Security Measures Implemented
-
-#### Authentication Security
-- **bcrypt Password Hashing** - 12 salt rounds (configurable)
-- **JWT Token Security** - HS256 algorithm with secure secret
-- **Token Expiration** - Configurable expiry time (default: 7 days)
-- **Secure Headers** - Helmet.js integration for security headers
-- **CORS Configuration** - Strict cross-origin policy
-
-#### Input Security
-- **Validation Pipes** - Global input validation with class-validator
-- **Data Sanitization** - Automatic XSS protection
-- **SQL Injection Prevention** - Parameterized queries and ORM protection
-- **Rate Limiting** - Configurable request throttling per IP
-- **Input Length Limits** - Prevent buffer overflow attacks
-
-#### Error Security
-- **Sanitized Error Messages** - No sensitive data in error responses
-- **Consistent Error Format** - Standardized error structure
-- **No User Enumeration** - Same error for non-existent vs wrong password
-- **Stack Trace Protection** - No internal errors exposed in production
-
-### 🔐 Password Requirements
-
-Users must create passwords that include:
-- ✅ **Minimum 8 characters**
-- ✅ **At least one letter** (A-Z or a-z)
-- ✅ **At least one number** (0-9)
-- ✅ **At least one special character** (!@#$%^&*()_+-=[]{}|;':\",./<>?)
-
-### 🔑 JWT Token Details
-- **Algorithm**: HS256
-- **Expiration**: 7 days (configurable)
-- **Payload**: User ID and email
-- **Header Required**: `Authorization: Bearer <token>`
 
 ---
 
