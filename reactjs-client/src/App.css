@@ -1,0 +1,627 @@
+/* src/App.css - Complete Authentication App Styles */
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+/* Utility Classes */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Background Gradients */
+.bg-gradient-to-br {
+  background: linear-gradient(to bottom right, var(--gradient-from), var(--gradient-to));
+}
+
+.from-blue-50 {
+  --gradient-from: #eff6ff;
+}
+
+.to-indigo-100 {
+  --gradient-to: #e0e7ff;
+}
+
+.from-purple-50 {
+  --gradient-from: #faf5ff;
+}
+
+.to-pink-100 {
+  --gradient-to: #fce7f3;
+}
+
+.from-green-50 {
+  --gradient-from: #f0fdf4;
+}
+
+.to-emerald-100 {
+  --gradient-to: #d1fae5;
+}
+
+/* Layout */
+.p-4 {
+  padding: 1rem;
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sizing */
+.w-full {
+  width: 100%;
+}
+
+.w-5 {
+  width: 1.25rem;
+}
+
+.w-8 {
+  width: 2rem;
+}
+
+.w-10 {
+  width: 2.5rem;
+}
+
+.w-16 {
+  width: 4rem;
+}
+
+.w-20 {
+  width: 5rem;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.h-5 {
+  height: 1.25rem;
+}
+
+.h-8 {
+  height: 2rem;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-16 {
+  height: 4rem;
+}
+
+.h-20 {
+  height: 5rem;
+}
+
+.h-32 {
+  height: 8rem;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-7xl {
+  max-width: 80rem;
+}
+
+/* Colors */
+.bg-white {
+  background-color: #ffffff;
+}
+
+.bg-blue-600 {
+  background-color: #2563eb;
+}
+
+.bg-blue-700 {
+  background-color: #1d4ed8;
+}
+
+.bg-purple-600 {
+  background-color: #9333ea;
+}
+
+.bg-green-600 {
+  background-color: #16a34a;
+}
+
+.bg-gray-200 {
+  background-color: #e5e7eb;
+}
+
+.bg-gray-300 {
+  background-color: #d1d5db;
+}
+
+.bg-red-50 {
+  background-color: #fef2f2;
+}
+
+.bg-blue-50 {
+  background-color: #eff6ff;
+}
+
+.bg-blue-100 {
+  background-color: #dbeafe;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-gray-600 {
+  color: #6b7280;
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+.text-gray-800 {
+  color: #1f2937;
+}
+
+.text-gray-900 {
+  color: #111827;
+}
+
+.text-red-500 {
+  color: #ef4444;
+}
+
+.text-red-700 {
+  color: #b91c1c;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.text-blue-700 {
+  color: #1d4ed8;
+}
+
+.text-blue-800 {
+  color: #1e40af;
+}
+
+.text-purple-600 {
+  color: #9333ea;
+}
+
+.text-purple-700 {
+  color: #7c3aed;
+}
+
+/* Typography */
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* Borders */
+.border {
+  border: 1px solid #d1d5db;
+}
+
+.border-b {
+  border-bottom: 1px solid #d1d5db;
+}
+
+.border-gray-200 {
+  border-color: #e5e7eb;
+}
+
+.border-gray-300 {
+  border-color: #d1d5db;
+}
+
+.border-gray-400 {
+  border-color: #9ca3af;
+}
+
+.border-red-200 {
+  border-color: #fecaca;
+}
+
+.border-red-500 {
+  border-color: #ef4444;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+/* Shadows */
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Focus and Hover States */
+.focus\:ring-2:focus {
+  box-shadow: 0 0 0 2px var(--ring-color);
+}
+
+.focus\:ring-blue-500:focus {
+  --ring-color: #3b82f6;
+}
+
+.focus\:ring-gray-500:focus {
+  --ring-color: #6b7280;
+}
+
+.focus\:ring-offset-2:focus {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--ring-color);
+}
+
+.focus\:border-transparent:focus {
+  border-color: transparent;
+}
+
+.focus\:border-blue-500:focus {
+  border-color: #3b82f6;
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: #1d4ed8;
+}
+
+.hover\:bg-gray-300:hover {
+  background-color: #d1d5db;
+}
+
+.hover\:border-gray-400:hover {
+  border-color: #9ca3af;
+}
+
+.hover\:text-blue-700:hover {
+  color: #1d4ed8;
+}
+
+.hover\:text-purple-700:hover {
+  color: #7c3aed;
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Transforms */
+.transform {
+  transform: var(--tw-transform);
+}
+
+.hover\:-translate-y-0\.5:hover {
+  transform: translateY(-0.125rem);
+}
+
+/* Transitions */
+.transition-all {
+  transition: all 0.15s ease-in-out;
+}
+
+.transition-colors {
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+/* Opacity */
+.opacity-50 {
+  opacity: 0.5;
+}
+
+/* Cursor */
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Spacing */
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+/* Custom Components */
+
+/* Input Styles */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  appearance: none;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+}
+
+/* Button Styles */
+button {
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+button:disabled {
+  pointer-events: none;
+}
+
+/* Navigation Styles */
+nav {
+  backdrop-filter: blur(10px);
+}
+
+/* Card Styles */
+.card {
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Error Message Styles */
+.error-message {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Message Styles */
+.success-message {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .max-w-md {
+    max-width: calc(100% - 2rem);
+  }
+  
+  .text-5xl {
+    font-size: 2.5rem;
+  }
+  
+  .text-3xl {
+    font-size: 1.75rem;
+  }
+  
+  .px-4 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .py-16 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .p-8 {
+    padding: 1.5rem;
+  }
+  
+  .w-20, .h-20 {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .w-32, .h-32 {
+    width: 6rem;
+    height: 6rem;
+  }
+  
+  .text-5xl {
+    font-size: 2rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .bg-gradient-to-br {
+    background: white !important;
+  }
+  
+  .shadow-xl,
+  .shadow-lg {
+    box-shadow: none !important;
+  }
+}
