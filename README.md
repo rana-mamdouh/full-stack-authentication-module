@@ -13,6 +13,7 @@ docker-compose up --build
 **Access the application:**
 - **Frontend (React)**: http://localhost:3000
 - **Backend API (NestJS)**: http://localhost:3001
+- **Database UI (Mongo Express)**: http://localhost:8081
 - **MongoDB**: localhost:27017
 
 ## 📋 Prerequisites
@@ -116,17 +117,6 @@ docker-compose down
 docker-compose down -v
 ```
 
-### View Logs
-```bash
-# View logs for all services
-docker-compose logs -f
-
-# View logs for specific service
-docker-compose logs -f backend
-docker-compose logs -f frontend
-docker-compose logs -f mongodb
-```
-
 ### Rebuild Services
 ```bash
 # Rebuild all services
@@ -135,18 +125,6 @@ docker-compose up --build
 # Rebuild specific service
 docker-compose build backend
 docker-compose up -d backend
-```
-
-### Access Containers
-```bash
-# Access backend container
-docker-compose exec backend sh
-
-# Access frontend container
-docker-compose exec frontend sh
-
-# Access database container
-docker-compose exec mongodb mongosh
 ```
 
 ## 🌍 Environment Variables
