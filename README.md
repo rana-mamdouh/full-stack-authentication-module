@@ -55,6 +55,7 @@ full-stack-authentication-module/
 - **NestJS** - Node.js framework
 - **MongoDB** - NoSQL database
 - **Mongoose** - MongoDB object modeling
+- **JWT** - JSON Web Token authentication
 
 ### Frontend  
 - **React** - Frontend framework
@@ -73,6 +74,7 @@ full-stack-authentication-module/
 | Frontend | `react-frontend` | 3000 | React application |
 | Backend | `nestjs-backend` | 3001 | NestJS API server |
 | Database | `authentication_app_mongodb` | 27017 | MongoDB database |
+| Database UI | `authentication_app_mongo_express` | 8081 | MongoDB management interface |
 
 ## 🚀 Getting Started
 
@@ -82,7 +84,33 @@ git clone https://github.com/rana-mamdouh/full-stack-authentication-module.git
 cd full-stack-authentication-module
 ```
 
-### 2. Start the Application
+### 2. Configure Environment Variables (Optional)
+Create a `.env` file in the root directory for custom JWT settings:
+
+```bash
+# JWT Configuration
+JWT_KEY=your-super-secret-jwt-key-here
+JWT_EXPIRES_IN=24h
+
+# Other optional variables
+NODE_ENV=development
+```
+
+**Note**: If you don't create a `.env` file, the application will use default values:
+- `JWT_KEY`: "your-secret-key-here"
+- `JWT_EXPIRES_IN`: "1h"
+
+**Alternative: Set environment variables directly in shell:**
+```bash
+# Set JWT configuration
+export JWT_KEY="your-super-secret-jwt-key-here"
+export JWT_EXPIRES_IN="24h"
+
+# Then run docker-compose
+docker-compose up --build
+```
+
+### 3. Start the Application
 ```bash
 # Start all services
 docker-compose up --build
@@ -91,7 +119,7 @@ docker-compose up --build
 docker-compose up --build -d
 ```
 
-### 3. Verify Everything is Running
+### 4. Verify Everything is Running
 ```bash
 # Check container status
 docker-compose ps
@@ -129,17 +157,34 @@ docker-compose up -d backend
 ## 🌍 Environment Variables
 
 ### Backend Environment Variables
+The backend service automatically configures these variables:
+
 ```bash
 NODE_ENV=development
-DATABASE_URL=mongodb://mongodb:27017/authentication_app
 MONGODB_URI=mongodb://mongodb:27017/authentication_app
-PORT=3000
+DATABASE_NAME=authentication_app
+PORT=3001
+FRONTEND_URL=http://localhost:3000
+```
+
+### JWT Configuration
+JWT settings can be customized via environment variables:
+
+```bash
+# Required for production - set these in your .env file
+JWT_KEY=your-super-secret-jwt-key-here
+JWT_EXPIRES_IN=24h
+
+# Examples of JWT_EXPIRES_IN values:
+# 1h    - 1 hour
+# 24h   - 24 hours
+# 7d    - 7 days
+# 30d   - 30 days
 ```
 
 ### Frontend Environment Variables
 ```bash
-REACT_APP_API_URL=http://localhost:3001
-CHOKIDAR_USEPOLLING=true
+VITE_API_BASE_URL=http://localhost:3001/api
 ```
 
 ## 🔗 API Endpoints
@@ -151,7 +196,6 @@ GET    /api/                 # Health check
 POST   /api/auth/signin      # User login
 POST   /api/auth/signup      # User registration
 GET    /api/auth/profile     # Get user profile
-
 ```
 
 ## 📊 Database Management
@@ -170,5 +214,28 @@ docker-compose exec mongodb mongosh authentication_app
 - **Connection String**: `mongodb://mongodb:27017/authentication_app`
 - **Admin UI**: http://localhost:8081
 
+## 🔐 Security Notes
 
----
+- **JWT_KEY**: In production, always use a strong, unique secret key
+- **JWT_EXPIRES_IN**: Set appropriate expiration times for your use case
+- **Database**: MongoDB is exposed on localhost:27017 - restrict access in production
+- **Environment**: The application runs in development mode by default
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+1. **Port conflicts**: Ensure ports 3000, 3001, 27017, and 8081 are available
+2. **JWT errors**: Check that JWT_KEY is properly set in your .env file
+3. **Database connection**: Verify MongoDB container is running with `docker-compose ps`
+4. **Build failures**: Try `docker-compose down -v` and `docker-compose up --build`
+
+### Logs
+```bash
+# View logs for all services
+docker-compose logs
+
+# View logs for specific service
+docker-compose logs backend
+docker-compose logs frontend
+```
