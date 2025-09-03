@@ -12,7 +12,7 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.MONGODB_URI || 'mongodb://localhost:27017/authentication_app'),
+    MongooseModule.forRoot(process.env.MONGODB_URI || 'mongodb://mongodb:27017/authentication_app'),
     ThrottlerModule.forRoot([{
       ttl: 60,
       limit: 10,
