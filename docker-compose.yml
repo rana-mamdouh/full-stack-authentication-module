@@ -56,6 +56,8 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    environment:
+      - API_BASE_URL=http://localhost:3001/api
     depends_on:
       - backend
     volumes:
