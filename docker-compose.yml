@@ -38,7 +38,6 @@ services:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://mongodb:27017/authentication_app
       - JWT_EXPIRES_IN=7d
-      - JWT_SECRET=255683632830b51ab8e90625f0b0f0f7663845cf9265fa4b34015e1588425095
       - DATABASE_NAME=authentication_app
       - PORT=3001
       - FRONTEND_URL=http://localhost:3000
