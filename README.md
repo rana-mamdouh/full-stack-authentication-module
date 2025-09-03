@@ -58,9 +58,8 @@ full-stack-authentication-module/
 
 ### Frontend  
 - **React** - Frontend framework
+- **Vite** - Frontend build tool
 - **TypeScript** - Type safety
-- **Axios** - HTTP client
-- **Tailwind CSS** - Styling
 
 ### DevOps
 - **Docker** - Containerization

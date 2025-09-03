@@ -1,6 +1,6 @@
 import type { User } from '../types/auth.types';
 
-const API_BASE_URL = import.meta.env.API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const apiService = {
   async signup(email: string, name: string, password: string): Promise<{ success: boolean; user?: User; token?: string; message?: string }> {
